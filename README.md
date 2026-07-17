@@ -49,6 +49,7 @@ graph TD
     O --> P{Apakah Jendela Ditutup?}
     P -- Tidak --> D
     P -- Ya --> Q([Selesai / Keluar])
+
 5. **Penjelasan Implementasi Paralel yang Digunakan**
 * **Direktif OpenMP**:
 Pemrosesan paralel diterapkan pada update loop utama partikel menggunakan konstruksi #pragma omp parallel yang dikombinasikan dengan #pragma omp for.
