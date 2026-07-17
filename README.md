@@ -29,6 +29,7 @@ Partikel yang mati atau keluar batas jendela akan langsung disetel ulang koordin
 4. **Flowchart Program**
 Berikut adalah alur logika eksekusi program dari awal hingga selesai:
 """mermaid
+graph TD
 \[ Mulai Program ]
 |
 v
