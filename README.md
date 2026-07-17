@@ -1,12 +1,12 @@
-**Laporan Tugas Rancang Pemrosesan Paralel**
+## Laporan Tugas Rancang Pemrosesan Paralel
 
-**Aplikasi 2D Fire Particle System dengan OpenMP dan SFML**
+## Aplikasi 2D Fire Particle System dengan OpenMP dan SFML
 
-1. Identitas Praktikan
+## 1. Identitas Praktikan
 * **Nama** : Raditya Yoga Pratama
 * **NIM**  : 622023011
 * **Kelas**: Pemrosesan Paralel
-2. **Setup Development Environment**
+## 2. **Setup Development Environment**
 2.1.**Pemasangan Dependensi**
 Proyek ini menggunakan compiler GCC yang mendukung OpenMP dan library grafis SFML. Jalankan perintah berikut di terminal Ubuntu untuk memasang seluruh dependensi:
 * sudo apt update
@@ -26,7 +26,7 @@ Ukuran fisik dan warna partikel berubah secara linear mengikuti sisa umurnya. Pa
 Saat pengguna menekan klik kiri mouse, program menghitung jarak partikel ke posisi kursor. Jika berada dalam radius 250px, partikel diberi gaya dorong horizontal menjauh dari kursor layaknya tertiup angin kencang.
 * **Sistem Respawn**:
 Partikel yang mati atau keluar batas jendela akan langsung disetel ulang koordinat dan umurnya ke kondisi awal di dasar layar sehingga simulasi berjalan tanpa henti.
-4. **Flowchart Program**
+## 4. **Flowchart Program**
 Berikut adalah alur logika eksekusi program dari awal hingga selesai:
 ```mermaid
 graph TD
@@ -50,19 +50,19 @@ graph TD
     P -- Tidak --> D
     P -- Ya --> Q([Selesai / Keluar])
 
-5. **Penjelasan Implementasi Paralel yang Digunakan**
+## 5. **Penjelasan Implementasi Paralel yang Digunakan**
 * **Direktif OpenMP**:
 Pemrosesan paralel diterapkan pada update loop utama partikel menggunakan konstruksi #pragma omp parallel yang dikombinasikan dengan #pragma omp for.
 * **Pembagian Beban Kerja**:
 Komputasi fisik (kalkulasi jarak angin mouse, penambahan turbulensi, pergerakan posisi, dan pengkondisian respawn) untuk 2000 partikel dibagi habis secara merata ke thread-thread CPU yang tersedia.
 * **Thread-Safety (Keamanan Data)**:
 Fungsi acak bawaan std::rand() tidak aman dijalankan secara paralel. Program ini menggunakan fungsi rand\_r(\&seed) di mana variabel seed dibuat unik untuk masing-masing thread dengan memanfaatkan ID thread (omp\_get\_thread\_num()). Hal ini mencegah terjadinya race condition atau tabrakan data antar core CPU.
-6. **Pengujian performa diukur melalui indikator FPS meter biru yang berada di pojok kiri atas jendela simulasi**:
+## 6. **Pengujian performa diukur melalui indikator FPS meter biru yang berada di pojok kiri atas jendela simulasi**:
 6.1. **Pengujian Sekuensial (1 Core / Thread)**:
 Dijalankan menggunakan perintah OMP\_NUM\_THREADS=1 ./simulasi\_partikel. Aplikasi berjalan cukup lancar pada kondisi diam, namun nilai FPS mengalami penurunan signifikan (dropping) saat user melakukan klik kiri dan menggerakkan mouse secara agresif (karena CPU tunggal kewalahan menghitung rumus jarak matematika untuk 2000 partikel sekaligus).
 6.2. **Pengujian Paralel (4 Cores / Threads)**:
 Dijalankan menggunakan perintah OMP\_NUM\_THREADS=4 ./simulasi\_partikel. Distribusi beban kerja ke semua inti CPU membuat performa aplikasi sangat stabil tinggi di batas maksimal screen-refresh. Nilai FPS tetap bertahan mulus tanpa adanya gejala patah-patah meskipun efek hembusan angin mouse diaktifkan terus-menerus.
-7. **Dokumentasi Penggunaan Program**
+## 7. **Dokumentasi Penggunaan Program**
 7.1. Memulai Aplikasi:
 Saat jendela simulasi pertama kali terbuka, partikel akan membeku di dasar layar. Klik di area mana saja pada jendela window untuk memulai jalannya simulasi api.
 7.2. Melihat Indikator Kinerja:
