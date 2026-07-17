@@ -28,38 +28,25 @@ Saat pengguna menekan klik kiri mouse, program menghitung jarak partikel ke posi
 Partikel yang mati atau keluar batas jendela akan langsung disetel ulang koordinat dan umurnya ke kondisi awal di dasar layar sehingga simulasi berjalan tanpa henti.
 4. **Flowchart Program**
 Berikut adalah alur logika eksekusi program dari awal hingga selesai:
-
 ```mermaid
 graph TD
     A([Mulai Program]) --> B[Inisialisasi 2000 Partikel<br/>Posisi dasar, Kecepatan, Umur]
     B --> C[Tampilkan Window Grafis & Teks 'CLICK TO START']
-    
     C --> D{Apakah User Klik Layar?}
-    
     D -- Belum --> E[Tahan Layar / Diam]
     D -- Sudah --> F[Aktifkan State Simulasi]
-    
     E --> G[Hitung & Update FPS]
     F --> G
-    
     G --> H[=== MASUK LOOP UTAMA OPENMP ===<br/>Ambil Posisi Kursor Mouse]
-    
     H --> I[Paralel Loop untuk Setiap Partikel<br/>i = 0 ke 1999]
-    
     I --> J[Tambah Gaya Turbulensi Udara<br/>JIKA Klik Kiri: Tambah Gaya Hembusan Angin<br/>Update Posisi X, Y berdasarkan Kecepatan<br/>Kurangi Lifetime Partikel<br/>Hitung Gradasi Warna & Ukuran]
-    
     J --> K{JIKA Lifetime <= 0}
-    
     K -- Ya --> L[Respawn Partikel di dasar]
     K -- Tidak --> M[Bersihkan Layar / window.clear]
     L --> M
-    
     M --> N[Gambar Semua Partikel & Teks FPS]
-    
     N --> O[Tampilkan ke Layar / window.display]
-    
     O --> P{Apakah Jendela Ditutup?}
-    
     P -- Tidak --> D
     P -- Ya --> Q([Selesai / Keluar])
 5. **Penjelasan Implementasi Paralel yang Digunakan**
