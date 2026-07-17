@@ -28,50 +28,40 @@ Saat pengguna menekan klik kiri mouse, program menghitung jarak partikel ke posi
 Partikel yang mati atau keluar batas jendela akan langsung disetel ulang koordinat dan umurnya ke kondisi awal di dasar layar sehingga simulasi berjalan tanpa henti.
 4. **Flowchart Program**
 Berikut adalah alur logika eksekusi program dari awal hingga selesai:
-"""mermaid
+
+```mermaid
 graph TD
-\[ Mulai Program ]
-|
-v
-\[ Inisialisasi 2000 Partikel (Posisi dasar, Kecepatan, Umur) ]
-|
-v
-\[ Tampilkan Window Grafis \& Teks "CLICK TO START" ]
-|
-v
-+-->\[ Apakah User Klik Layar? ]
-|          |
-|          +---(Belum)---> \[ Tahan Layar / Diam ] ----+
-|          |                                          |
-|          +---(Sudah)---> \[ Aktifkan State Simulasi ]+
-|                                  |
-|                       \[ Hitung \& Update FPS ]
-|                                  |
-|                    === MASUK LOOP UTAMA OPENMP ===
-|                    \[ Ambil Posisi Kursor Mouse ]
-|                    \[ Paralel Loop untuk Setiap Partikel (i = 0 ke 1999) ]
-|                           |-- Tambah Gaya Turbulensi Udara
-|                           |-- JIKA Klik Kiri: Tambah Gaya Hembusan Angin
-|                           |-- Update Posisi (X, Y) berdasarkan Kecepatan
-|                           |-- Kurangi Lifetime Partikel
-|                           |-- Hitung Gradasi Warna \& Ukuran
-|                           |-- JIKA Lifetime <= 0: Respawn Partikel di
-|                               dasar
-|                    ================================
-|                                  |
-|                                  v
-|                    \[ Bersihkan Layar (window.clear) ]
-|                                  |
-|                                  v
-|                    \[ Gambar Semua Partikel \& Teks FPS ]
-|                                  |
-|                                  v
-|                    \[ Tampilkan ke Layar (window.display) ]
-|                                  |
-|                                  v
-+--------------------\[ Apakah Jendela Ditutup? ]
-|
-+---(Ya)---> \[ Selesai / Keluar ]
+    A([Mulai Program]) --> B[Inisialisasi 2000 Partikel<br/>Posisi dasar, Kecepatan, Umur]
+    B --> C[Tampilkan Window Grafis & Teks 'CLICK TO START']
+    
+    C --> D{Apakah User Klik Layar?}
+    
+    D -- Belum --> E[Tahan Layar / Diam]
+    D -- Sudah --> F[Aktifkan State Simulasi]
+    
+    E --> G[Hitung & Update FPS]
+    F --> G
+    
+    G --> H[=== MASUK LOOP UTAMA OPENMP ===<br/>Ambil Posisi Kursor Mouse]
+    
+    H --> I[Paralel Loop untuk Setiap Partikel<br/>i = 0 ke 1999]
+    
+    I --> J[Tambah Gaya Turbulensi Udara<br/>JIKA Klik Kiri: Tambah Gaya Hembusan Angin<br/>Update Posisi X, Y berdasarkan Kecepatan<br/>Kurangi Lifetime Partikel<br/>Hitung Gradasi Warna & Ukuran]
+    
+    J --> K{JIKA Lifetime <= 0}
+    
+    K -- Ya --> L[Respawn Partikel di dasar]
+    K -- Tidak --> M[Bersihkan Layar / window.clear]
+    L --> M
+    
+    M --> N[Gambar Semua Partikel & Teks FPS]
+    
+    N --> O[Tampilkan ke Layar / window.display]
+    
+    O --> P{Apakah Jendela Ditutup?}
+    
+    P -- Tidak --> D
+    P -- Ya --> Q([Selesai / Keluar])
 5. **Penjelasan Implementasi Paralel yang Digunakan**
 * **Direktif OpenMP**:
 Pemrosesan paralel diterapkan pada update loop utama partikel menggunakan konstruksi #pragma omp parallel yang dikombinasikan dengan #pragma omp for.
